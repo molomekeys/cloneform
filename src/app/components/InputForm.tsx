@@ -6,7 +6,9 @@ import { useRef } from "react"
 import { useState } from "react"
 import {AnimatePresence, motion} from "framer-motion"
 import { useAppDispatch } from "../hook"
-import { changeSpecifiqueLabel, deleteForm, duplicateForm, selectForm } from "../features/formInput/formSlice"
+import { useDebounce } from 'use-debounce';
+
+import { changeSpecifiqueLabel, deleteForm, duplicateForm, reseatSelect, selectForm } from "../features/formInput/formSlice"
 interface PropsInput{
 number : number
 id:string
@@ -18,12 +20,19 @@ const InputForm = ({number,id,isSelected,inputLabel}:PropsInput) => {
     const [isOpenMenu,setIsOpenMenu]=useState(false)
     const [isObligatory,setIsObligatory]=useState(false)
     const refInput=useRef<HTMLInputElement>(null)
+    const [value] = useDebounce(isOpenMenu, 1000);
+
     useEffect(()=>{
 if(isSelected)
 {
     refInput.current?.focus()
 }
-    },[isSelected])
+else {
+   
+
+
+}
+    },[isSelected,value])
     const dispatch=useAppDispatch()
   return (
     <div
@@ -32,14 +41,18 @@ if(isSelected)
         dispatch(selectForm(id))   
     }}
     className={`flex flex-col w-full min-h-[100px]  gap-2 p-10 hover:bg-[#F5F5F5] ${isSelected? "bg-[#F5F5F5]":""}`}>
+   
+   
     {isSelected&&
-    <div className="w-full flex p-4 justify-end gap-8">
-        <button onClick={()=>{
+    <div className="flex  p-4 justify-end gap-8">
+        <button onClick={(e)=>{
+            e.stopPropagation()
             dispatch(duplicateForm(id))
         }}>Duplicate</button>
-
-        <button onClick={()=>{
-            dispatch(deleteForm(id))
+        
+        <button onClick={(e)=>{
+            e.stopPropagation()
+           dispatch(deleteForm(id))
         }}>Delete</button>
         </div>}
 <div className="flex w-full"
@@ -52,11 +65,14 @@ onClick={(e)=>{
 
    <label className="">{number+1}.{isSelected? "" : `${isUsingText}`} {isSelected===false&&isObligatory? "*" : ""} </label>
    {isSelected&&        <input  
-   onBlur={()=>{
-    dispatch(changeSpecifiqueLabel({id:id,inputLabel:isUsingText,optional:false}))
+   onBlur={(e)=>{
+    e.stopPropagation()
+
    }}
    value={isUsingText} ref={refInput} 
-    onChange={(e)=>setIsUsingText(e.target.value)}
+    onChange={(e)=>{
+        dispatch(changeSpecifiqueLabel({id:id,inputLabel:e.target.value,optional:false}))
+    }}
     className="w-full border-b-2 pb-1 border-teal-600 outline-none"
     placeholder="Entrez votre reponse"/>
 }
