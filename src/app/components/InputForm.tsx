@@ -67,10 +67,13 @@ else {
     }}
     className={`flex flex-col w-full min-h-[100px]  gap-2 p-10 hover:bg-[#F5F5F5] ${isSelected? "bg-[#F5F5F5]":""}`}>
    
-  {isShowToogle&& <motion.div className="w-full flex justify-center"
+  {isShowToogle&&isSelected===false&& 
+  <motion.div className="w-full flex justify-center"
         >
             <ReorderIcon dragControls={controles}/>
         </motion.div>}
+
+
     {isSelected&&
     <div className="flex  p-4 justify-end gap-8">
   
@@ -84,6 +87,7 @@ else {
            dispatch(deleteForm(id))
         }}>Delete</button>
         </div>}
+
 <div className="flex w-full"
 onClick={(e)=>{
     
@@ -92,7 +96,9 @@ onClick={(e)=>{
 }}
 >
 
-   <label className=" "><span className="text-sm">{number+1}.</span> {isSelected? "" : `${isUsingText}`} {isSelected===false&&optional? "*" : ""} </label>
+   <label className=" "><span className="text-sm">{number+1}.</span> 
+   {isSelected? "" : `${isUsingText}`}
+    {isSelected===false&&optional? "*" : ""} </label>
    {isSelected&&        <input  
    onBlur={(e)=>{
     e.stopPropagation()
@@ -103,11 +109,12 @@ onClick={(e)=>{
         setIsUsingText(e.target.value)
         dispatch(changeSpecifiqueLabel({id:id,inputLabel:e.target.value,optional:false}))
     }}
-    className="w-full border-b-2 pb-1 border-teal-600 outline-none"
+    className={`w-full border-b-2 pb-1 border-teal-600 outline-none `}
     placeholder="Entrez votre reponse"/>
 }
     </div>
-    <div className={`rounded-md bg-[#F5F5F5] ${isSelected? "border-2 " : ""} `}>
+    <div className={`rounded-md bg-[#F5F5F5] ${isSelected? "border-2 " 
+    : ""} ${isShowToogle&&isSelected==false? "bg-white" : ""} `}>
     <p className="text-slate-800 pl-2 py-1">Entrez votre réponse</p>
     </div>
     <AnimatePresence>    {isSelected? <motion.div 
