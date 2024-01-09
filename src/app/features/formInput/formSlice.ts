@@ -60,7 +60,22 @@ export const formSlice = createSlice({
         state.idSelected=action.payload.id
         state.formCreated=[...state.formCreated,action.payload]
 
-    },changeSpecifiqueLabel:(state,action:PayloadAction<formCreated>)=>{
+    },changeOptionalField:(state,action:PayloadAction<string>)=>{
+        const id=action.payload
+        const newState=[...state.formCreated]
+         let filteredArray=newState.map((e)=>{
+            if(e.id===id)
+            {
+                return {...e,optional:!e.optional}
+            }
+            else {
+                return e
+            }
+         })
+            state.formCreated=filteredArray
+    }
+    
+  ,changeSpecifiqueLabel:(state,action:PayloadAction<formCreated>)=>{
         const {id,inputLabel,optional}=action.payload
         const newState=[...state.formCreated]
          let filteredArray=newState.map((e)=>{
@@ -78,7 +93,7 @@ export const formSlice = createSlice({
   },
 })
 
-export const {duplicateForm,deleteForm,changeSpecifiqueLabel,addNewForm, selectForm,reseatSelect } = formSlice.actions
+export const {changeOptionalField,duplicateForm,deleteForm,changeSpecifiqueLabel,addNewForm, selectForm,reseatSelect } = formSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
 

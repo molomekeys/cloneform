@@ -8,14 +8,15 @@ import {AnimatePresence, motion} from "framer-motion"
 import { useAppDispatch } from "../hook"
 import { useDebounce } from 'use-debounce';
 
-import { changeSpecifiqueLabel, deleteForm, duplicateForm, reseatSelect, selectForm } from "../features/formInput/formSlice"
+import { changeOptionalField, changeSpecifiqueLabel, deleteForm, duplicateForm, reseatSelect, selectForm } from "../features/formInput/formSlice"
 interface PropsInput{
 number : number
 id:string
 isSelected:boolean
+optional:boolean
 inputLabel:string
 }
-const InputForm = ({number,id,isSelected,inputLabel}:PropsInput) => {
+const InputForm = ({number,id,isSelected,inputLabel,optional}:PropsInput) => {
     const [isUsingText,setIsUsingText]=useState(inputLabel)
     const [isOpenMenu,setIsOpenMenu]=useState(false)
     const [isObligatory,setIsObligatory]=useState(false)
@@ -63,7 +64,7 @@ onClick={(e)=>{
 }}
 >
 
-   <label className="">{number+1}.{isSelected? "" : `${isUsingText}`} {isSelected===false&&isObligatory? "*" : ""} </label>
+   <label className="">{number+1}.{isSelected? "" : `${isUsingText}`} {isSelected===false&&optional? "*" : ""} </label>
    {isSelected&&        <input  
    onBlur={(e)=>{
     e.stopPropagation()
@@ -100,15 +101,15 @@ onClick={(e)=>{
 
     <motion.div onClick={(e)=>{
         e.stopPropagation()
-        setIsObligatory(e=>!e)
+       dispatch(changeOptionalField(id))
     }}
     key={"testBmomo"}
     layout transition={{duration:0.1,}}
-    className={`flex w-14 rounded-full items-center p-1 ${isObligatory? "bg-emerald-500  justify-end" : "bg-slate-200 "}`}>
+    className={`flex w-14 rounded-full items-center p-1 ${optional? "bg-emerald-500  justify-end" : "bg-slate-200 "}`}>
 
     <motion.div  transition={{duration:0.1}} layout
     key={"test33momo"}
-    className={`h-4 w-4 rounded-full ${isObligatory? "bg-white" : "bg-slate-900"}`}>
+    className={`h-4 w-4 rounded-full ${optional? "bg-white" : "bg-slate-900"}`}>
  {/**ça c'est le cercle pour le toggle */}
     </motion.div>
     </motion.div>

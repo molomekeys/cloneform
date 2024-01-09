@@ -23,7 +23,7 @@ const Test=useAppSelector(e=>e.form.idSelected)
   const allValue=useAppSelector(v=>v.form.formCreated)
   const allInput=allValue.map((e,i)=>{
     return (
-     <InputForm   key={v4()}
+     <InputForm  optional={e.optional} key={v4()}
      inputLabel={e.inputLabel}
      isSelected={e.id===Test} id={e.id} number={i}/>
     )
