@@ -64,7 +64,7 @@ onClick={(e)=>{
 }}
 >
 
-   <label className="">{number+1}.{isSelected? "" : `${isUsingText}`} {isSelected===false&&optional? "*" : ""} </label>
+   <label className=" "><span className="text-sm">{number+1}.</span> {isSelected? "" : `${isUsingText}`} {isSelected===false&&optional? "*" : ""} </label>
    {isSelected&&        <input  
    onBlur={(e)=>{
     e.stopPropagation()
@@ -72,6 +72,7 @@ onClick={(e)=>{
    }}
    value={isUsingText} ref={refInput} 
     onChange={(e)=>{
+        setIsUsingText(e.target.value)
         dispatch(changeSpecifiqueLabel({id:id,inputLabel:e.target.value,optional:false}))
     }}
     className="w-full border-b-2 pb-1 border-teal-600 outline-none"

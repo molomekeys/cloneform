@@ -45,6 +45,8 @@ export const formSlice = createSlice({
         })
         state.formCreated=filtereState
 
+    },reOrderInput:(state,action:PayloadAction<formCreated[]>)=>{
+        state.formCreated=action.payload
     },duplicateForm:(state,action:PayloadAction<string>)=>{
         const newState=[...state.formCreated]
         const id=action.payload
@@ -93,7 +95,7 @@ export const formSlice = createSlice({
   },
 })
 
-export const {changeOptionalField,duplicateForm,deleteForm,changeSpecifiqueLabel,addNewForm, selectForm,reseatSelect } = formSlice.actions
+export const {reOrderInput,changeOptionalField,duplicateForm,deleteForm,changeSpecifiqueLabel,addNewForm, selectForm,reseatSelect } = formSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
 
