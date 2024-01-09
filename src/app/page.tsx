@@ -24,7 +24,9 @@ const Test=useAppSelector(e=>e.form.idSelected)
   const allValue=useAppSelector(v=>v.form.formCreated)
   const allInput=allValue.map((e,i)=>{
     return (
-      <Reorder.Item key={e.id} value={e}>
+      <Reorder.Item key={e.id} value={e} onClick= {(e)=>{
+e.stopPropagation()
+    }}>
      <InputForm  optional={e.optional}
      inputLabel={e.inputLabel}
      isSelected={e.id===Test} id={e.id} number={i}/>
@@ -38,14 +40,16 @@ const Test=useAppSelector(e=>e.form.idSelected)
       
       </div>
       <section className='w-full flex  items-center justify-center h-full p-20 ' onClick={(e)=>{
-     
+     e.stopPropagation()
       dispatch(reseatSelect())
       }}>
      
         <div className='w-3/5 flex flex-col gap-8 p-4 bg-white  min-h-[400px] text-slate-800'>
         <h3 className='pl-10 text-2xl py-2'>Questionaire</h3>
-        <Reorder.Group axis='y' values={allValue} 
+        <Reorder.Group axis='y' values={allValue} onClick=
+        {(e)=>e.stopPropagation()}
         onReorder={(e)=>{
+          
           console.log(e)
           dispatch(reOrderInput(e))}}>   
                {allInput}</Reorder.Group>

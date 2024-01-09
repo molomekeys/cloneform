@@ -37,7 +37,7 @@ else {
     const dispatch=useAppDispatch()
   return (
     <div
-    onClick={(e)=>{
+    onDoubleClick={(e)=>{
         e.stopPropagation()
         dispatch(selectForm(id))   
     }}

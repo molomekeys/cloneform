@@ -46,6 +46,7 @@ export const formSlice = createSlice({
         state.formCreated=filtereState
 
     },reOrderInput:(state,action:PayloadAction<formCreated[]>)=>{
+        state.idSelected=""
         state.formCreated=action.payload
     },duplicateForm:(state,action:PayloadAction<string>)=>{
         const newState=[...state.formCreated]
