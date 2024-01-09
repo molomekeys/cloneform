@@ -4,19 +4,25 @@ import { Switch } from "@/components/ui/switch"
 import { useEffect } from "react"
 import { useRef } from "react"
 import { useState } from "react"
-import {AnimatePresence, motion} from "framer-motion"
+import {AnimatePresence, motion, Reorder, useDragControls} from "framer-motion"
 import { useAppDispatch } from "../hook"
 import { useDebounce } from 'use-debounce';
 
 import { changeOptionalField, changeSpecifiqueLabel, deleteForm, duplicateForm, reseatSelect, selectForm } from "../features/formInput/formSlice"
+import { ReorderIcon } from "./ReoderIcon"
+interface Boum{
+    inputLabel:string ,optional:boolean,id:string
+}
 interface PropsInput{
 number : number
 id:string
 isSelected:boolean
 optional:boolean
 inputLabel:string
+valueOfDar:Boum
 }
-const InputForm = ({number,id,isSelected,inputLabel,optional}:PropsInput) => {
+const InputForm = ({valueOfDar,number,id,isSelected,inputLabel,optional}:PropsInput) => {
+   
     const [isUsingText,setIsUsingText]=useState(inputLabel)
     const [isOpenMenu,setIsOpenMenu]=useState(false)
     const [isObligatory,setIsObligatory]=useState(false)
@@ -35,7 +41,25 @@ else {
 }
     },[isSelected,value])
     const dispatch=useAppDispatch()
+    const controles=useDragControls()
+    const [isShowToogle,setIsShowToogle]=useState(false)
   return (
+    <Reorder.Item  className="select-none"
+    onMouseLeave={(e)=>{
+        e.preventDefault()
+        e.stopPropagation()
+        setIsShowToogle(false)
+    }}
+    onMouseEnter={(e)=>{
+        e.preventDefault()
+        e.stopPropagation()
+        setIsShowToogle(true)
+    }}
+    dragListener={false}
+    dragControls={controles}
+    id={id}
+    value={valueOfDar}
+        >
     <div
     onDoubleClick={(e)=>{
         e.stopPropagation()
@@ -43,9 +67,13 @@ else {
     }}
     className={`flex flex-col w-full min-h-[100px]  gap-2 p-10 hover:bg-[#F5F5F5] ${isSelected? "bg-[#F5F5F5]":""}`}>
    
-   
+  {isShowToogle&& <motion.div className="w-full flex justify-center"
+        >
+            <ReorderIcon dragControls={controles}/>
+        </motion.div>}
     {isSelected&&
     <div className="flex  p-4 justify-end gap-8">
+  
         <button onClick={(e)=>{
             e.stopPropagation()
             dispatch(duplicateForm(id))
@@ -125,6 +153,7 @@ onClick={(e)=>{
     </AnimatePresence>
 
     </div>
+    </Reorder.Item>
   )
 }
 export default InputForm

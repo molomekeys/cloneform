@@ -5,9 +5,10 @@ import InputForm from './components/InputForm'
 import {useAppDispatch, useAppSelector} from "./hook"
 import {v4} from "uuid"
 import { addNewForm, reOrderInput, reseatSelect } from './features/formInput/formSlice'
-import { Reorder } from 'framer-motion'
+import { Reorder,useDragControls } from 'framer-motion'
 interface InputDataState{
  labelInput:string ,optional:boolean,id:string
+
 
 }
 export default function Home() {
@@ -22,17 +23,23 @@ const Test=useAppSelector(e=>e.form.idSelected)
     })
   }
   const allValue=useAppSelector(v=>v.form.formCreated)
+  const controls = useDragControls()
+
   const allInput=allValue.map((e,i)=>{
     return (
-      <Reorder.Item key={e.id} value={e} onClick= {(e)=>{
-e.stopPropagation()
-    }}>
-     <InputForm  optional={e.optional}
+      
+      
+     
+     <InputForm  valueOfDar={e}
+ 
+     optional={e.optional}
+     key={e.id}
      inputLabel={e.inputLabel}
      isSelected={e.id===Test} id={e.id} number={i}/>
-     </Reorder.Item>
+   
     )
   })
+  console.log(allInput)
   return (
   <main className='flex flex-col bg-gradient-to-tr from-teal-200 to-slate-100  min-h-screen'>
 
