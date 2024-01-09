@@ -53,7 +53,9 @@ const Test=useAppSelector(e=>e.form.idSelected)
      
         <div className='w-3/5 flex flex-col gap-8 p-4 bg-white  min-h-[400px] text-slate-800'>
         <h3 className='pl-10 text-2xl py-2'>Questionaire</h3>
-        <Reorder.Group axis='y' values={allValue} onClick=
+        <Reorder.Group axis='y' values={allValue} 
+        className="gap-4"
+        onClick=
         {(e)=>e.stopPropagation()}
         onReorder={(e)=>{
           
