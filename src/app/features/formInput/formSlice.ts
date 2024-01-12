@@ -5,8 +5,11 @@ import {v4} from "uuid"
 interface formCreated{
 
         id:string
+        title:string
         optional:boolean
         inputLabel:string
+        type:string
+        option:string[]
      
 }
 interface FormStat {
@@ -61,7 +64,8 @@ export const formSlice = createSlice({
     },
     addNewForm:(state,action:PayloadAction<formCreated>)=>{
         state.idSelected=action.payload.id
-        state.formCreated=[...state.formCreated,action.payload]
+       
+        state.formCreated=[...state.formCreated,{...action.payload}]
 
     },changeOptionalField:(state,action:PayloadAction<string>)=>{
         const id=action.payload

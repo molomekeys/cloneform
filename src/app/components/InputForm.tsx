@@ -10,7 +10,7 @@ import { useDebounce } from 'use-debounce';
 
 import { changeOptionalField, changeSpecifiqueLabel, deleteForm, duplicateForm, reseatSelect, selectForm } from "../features/formInput/formSlice"
 import { ReorderIcon } from "./ReoderIcon"
-interface Boum{
+export interface SingleInputStat{
     inputLabel:string ,optional:boolean,id:string
 }
 interface PropsInput{
@@ -19,24 +19,25 @@ id:string
 isSelected:boolean
 optional:boolean
 inputLabel:string
-valueOfDar:Boum
+valueOfDar:SingleInputStat
+optionQuestion:string
+title:string
 }
-const InputForm = ({valueOfDar,number,id,isSelected,inputLabel,optional}:PropsInput) => {
+const InputForm = ({title,optionQuestion,valueOfDar,number,id,isSelected,inputLabel,optional}:PropsInput) => {
    
-    const [isUsingText,setIsUsingText]=useState(inputLabel)
+    const [isUsingText,setIsUsingText]=useState(title)
     const [isOpenMenu,setIsOpenMenu]=useState(false)
     const [isObligatory,setIsObligatory]=useState(false)
     const refInput=useRef<HTMLInputElement>(null)
     const [value] = useDebounce(isOpenMenu, 1000);
 
     useEffect(()=>{
-if(isSelected)
+if(isSelected&&value===false)
 {
     refInput.current?.focus()
+    
 }
-else {
-   
-
+else if(value===true) {
 
 }
     },[isSelected,value])
@@ -96,18 +97,19 @@ onClick={(e)=>{
 }}
 >
 
-   <label className=" "><span className="text-sm">{number+1}.</span> 
+   <label className=" "><span className="text-sm">{number}.</span> 
    {isSelected? "" : `${isUsingText}`}
     {isSelected===false&&optional? "*" : ""} </label>
    {isSelected&&        <input  
    onBlur={(e)=>{
     e.stopPropagation()
+    dispatch(changeSpecifiqueLabel({id:id,inputLabel:isUsingText,title:isUsingText,optional:false,type:"text",option:[isUsingText]}))
 
    }}
    value={isUsingText} ref={refInput} 
     onChange={(e)=>{
         setIsUsingText(e.target.value)
-        dispatch(changeSpecifiqueLabel({id:id,inputLabel:e.target.value,optional:false}))
+      
     }}
     className={`w-full border-b-2 pb-1 border-teal-600 outline-none `}
     placeholder="Entrez votre reponse"/>
