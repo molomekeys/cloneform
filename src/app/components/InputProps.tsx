@@ -22,7 +22,7 @@ export const InputProps = ({index,isChange,id,value,saveChange,deleteOption}:Inp
     `}>
         <div className={`flex gap-2 w-full h-full items-center justify-center`}>
     <div className={`p-2 rounded-full 
-    border-[2px] w-4 h-4 border-black ${isChange? "bg-white" : "bg-white"}
+    border-[2px] w-4 h-4 border-black ${isChange? "bg-white" : "bg-transparent"}
    `}>
 
     </div>
@@ -34,7 +34,7 @@ export const InputProps = ({index,isChange,id,value,saveChange,deleteOption}:Inp
     onChange={(e)=>{
         setIsInput(e.target.value)
     }}
-    className={`w-full p-2  ${isChange? "bg-white" : "bg-white"}`}
+    className={`w-full p-2  ${isChange? "bg-white" : "bg-transparent"}`}
      placeholder="Entrez le nom de l'option"/>
      </div>
 

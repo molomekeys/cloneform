@@ -11,6 +11,8 @@ import { changeSpecifiqueLabel, deleteForm, selectForm } from "../features/formI
 import { Reorder, useDragControls } from "framer-motion"
 import { ReorderIcon } from "./ReoderIcon"
 import { SingleInputStat } from "./InputForm"
+import { useEffect } from "react"
+import { useRef } from "react"
 interface TypeMultipleChoice{
   id:string
     numberQuestion:number
@@ -86,10 +88,19 @@ setIsChoice((e)=>([...e,{option:"Autre",id:v4(),isChange:true}]))
     setIsChoice(filteredAlData)
 }
  }
+
+ const inputRef=useRef<HTMLInputElement>(null)
+ useEffect(()=>{
+if(isSelected&&inputRef.current)
+{
+    inputRef.current.focus()
+}
+ },[isSelected])
    return (
 <Reorder.Item
 transition={{duration:0.25}}
-value={values} className={`flex flex-col gap-2  transition-all duration-0 select-none ${isSelected? "border-t-4 border-teal-500" : ""}`}
+value={values} className={`flex flex-col gap-2  transition-all
+ duration-0 select-none ${isSelected? "border-t-4 border-teal-500" : ""}`}
 dragControls={controles}
 onMouseEnter={()=>{
     setIsMouseEnter(true)
@@ -103,7 +114,7 @@ dragListener={false}>
     dispatch(selectForm(id))
    }}
    className={`flex flex-col 
-    p-2 ${isMouseEnter? "bg-[#f5f5f5]" : "bg-white"}  ${isSelected? "bg-[#f5f5f5]" : "bg-white"}
+    p-2 ${isMouseEnter&&!isSelected? "bg-[#f5f5f5]" : "bg-white"}  ${isSelected? "bg-[#f5f5f5]" : "bg-white"}
     gap-2 h-full w-full `}>
        
       <div className={`flex justify-center w-full pt-2 ${isMouseEnter&&!isSelected? "opacity-100" :"opacity-0"}`}>
@@ -115,9 +126,9 @@ dragListener={false}>
             dispatch(deleteForm(id))
         }}>Delete</button>
         </div>}
-<div className="flex">
+<div className="flex w-full h-full items-center justify-center gap-2">
     <p>{numberQuestion+"."}</p>
-    <input 
+    <input ref={inputRef}  
     onBlur={()=>{
         dispatch(changeSpecifiqueLabel({id:id,newTitle:isChangeTitle}))
     }}
@@ -125,7 +136,7 @@ dragListener={false}>
         setIsChangeTitle(e.target.value)
     }}
     value={isChangeTitle}
-    className="w-full bg-transparent outline-none"
+    className={`w-full outline-none py-1 ${isSelected? "bg-white border-b-2 border-teal-600" : "bg-transparent"}`}
      placeholder="Choisisez la question"/>
 </div>
 <div className={`flex flex-col  p-4 ${isSelected? "" : ""}`}>

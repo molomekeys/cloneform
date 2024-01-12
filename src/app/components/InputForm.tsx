@@ -48,7 +48,8 @@ else if(value===true) {
     <Reorder.Item  
     
     transition={{duration:0.25}}
-    className={`flex flex-col gap-2 transition-all duration-0  select-none ${isSelected? "border-t-4 border-teal-500" : ""}`}
+    className={`flex flex-col  h-fit
+     gap-2 transition-all duration-0  select-none ${isSelected? "border-t-4 border-teal-500" : ""}`}
     onMouseLeave={(e)=>{
         e.preventDefault()
         e.stopPropagation()
@@ -69,7 +70,8 @@ else if(value===true) {
         e.stopPropagation()
         dispatch(selectForm(id))   
     }}
-    className={`flex flex-col w-full min-h-[100px]  gap-2 p-10 hover:bg-[#F5F5F5] ${isSelected? "bg-[#F5F5F5]":""}`}>
+    className={`flex flex-col w-full min-h-200px] p-4  gap-2 
+     hover:bg-[#F5F5F5] ${isSelected? "bg-[#F5F5F5]":""}`}>
    
      <div className={`flex justify-center w-full pt-2 ${isShowToogle&&!isSelected? "opacity-100" :"opacity-0"}`}>
 
@@ -92,7 +94,7 @@ else if(value===true) {
         }}>Delete</button>
         </div>}
 
-<div className="flex w-full"
+<div className="flex w-full gap-2"
 onClick={(e)=>{
     
   
@@ -100,7 +102,7 @@ onClick={(e)=>{
 }}
 >
 
-   <label className=" "><span className="text-sm">{number}.</span> 
+   <label className="gap-2 flex items-center justify-center "><span className="text-sm">{number}.</span> 
    {isSelected? "" : `${isUsingText}`}
     {isSelected===false&&optional? "*" : ""} </label>
    {isSelected&&        <input  
@@ -118,8 +120,8 @@ onClick={(e)=>{
     placeholder="Entrez votre reponse"/>
 }
     </div>
-    <div className={`rounded-md bg-[#F5F5F5] ${isSelected? "border-2 " 
-    : ""} ${isShowToogle&&isSelected==false? "bg-white" : ""} `}>
+    <div className={`rounded-md  ${isSelected? "border-2 " 
+    : ""} ${isShowToogle&&isSelected==false? "bg-[#f5f5f5]" : "bg-[#f5f5f5]"} `}>
     <p className="text-slate-800 pl-2 py-1">Entrez votre réponse</p>
     </div>
     <AnimatePresence>    {isSelected? <motion.div 
