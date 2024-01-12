@@ -48,7 +48,7 @@ else if(value===true) {
     <Reorder.Item  
     
     transition={{duration:0.25}}
-    className={`flex flex-col gap-2  select-none ${isSelected? "border-t-4 border-teal-500" : ""}`}
+    className={`flex flex-col gap-2 transition-all duration-0  select-none ${isSelected? "border-t-4 border-teal-500" : ""}`}
     onMouseLeave={(e)=>{
         e.preventDefault()
         e.stopPropagation()
@@ -71,11 +71,11 @@ else if(value===true) {
     }}
     className={`flex flex-col w-full min-h-[100px]  gap-2 p-10 hover:bg-[#F5F5F5] ${isSelected? "bg-[#F5F5F5]":""}`}>
    
-  {isShowToogle&&isSelected===false&& 
-  <motion.div className="w-full flex justify-center"
-        >
+     <div className={`flex justify-center w-full pt-2 ${isShowToogle&&!isSelected? "opacity-100" :"opacity-0"}`}>
+
+        
             <ReorderIcon dragControls={controles}/>
-        </motion.div>}
+      </div>
 
 
     {isSelected&&

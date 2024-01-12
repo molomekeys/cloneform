@@ -89,7 +89,7 @@ setIsChoice((e)=>([...e,{option:"Autre",id:v4(),isChange:true}]))
    return (
 <Reorder.Item
 transition={{duration:0.25}}
-value={values} className={`flex flex-col gap-2  select-none ${isSelected? "border-t-4 border-teal-500" : ""}`}
+value={values} className={`flex flex-col gap-2  transition-all duration-0 select-none ${isSelected? "border-t-4 border-teal-500" : ""}`}
 dragControls={controles}
 onMouseEnter={()=>{
     setIsMouseEnter(true)
@@ -102,12 +102,13 @@ dragListener={false}>
    onDoubleClick={()=>{
     dispatch(selectForm(id))
    }}
-   className={`flex flex-col  p-2 ${isMouseEnter? "bg-[#f5f5f5]" : "bg-white"}  ${isSelected? "bg-[#f5f5f5]" : "bg-white"}
-    gap-4 h-full w-full `}>
+   className={`flex flex-col 
+    p-2 ${isMouseEnter? "bg-[#f5f5f5]" : "bg-white"}  ${isSelected? "bg-[#f5f5f5]" : "bg-white"}
+    gap-2 h-full w-full `}>
        
-      {isMouseEnter&&!isSelected&& <div className="flex justify-center w-full p-4">
+      <div className={`flex justify-center w-full pt-2 ${isMouseEnter&&!isSelected? "opacity-100" :"opacity-0"}`}>
        <ReorderIcon dragControls={controles}/>
-        </div>}
+        </div>
 
     {isSelected&&    <div className="flex justify-end w-full">
         <button onClick={()=>{
