@@ -114,7 +114,7 @@ dragListener={false}>
     dispatch(selectForm(id))
    }}
    className={`flex flex-col 
-    p-2 ${isMouseEnter&&!isSelected? "bg-[#f5f5f5]" : "bg-white"}  ${isSelected? "bg-[#f5f5f5]" : "bg-white"}
+    p-2 ${isMouseEnter&&!isSelected? "bg-[#f5f5f5]"  :"bg-white"} 
     gap-2 h-full w-full `}>
        
       <div className={`flex justify-center w-full pt-2 ${isMouseEnter&&!isSelected? "opacity-100" :"opacity-0"}`}>
