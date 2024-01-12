@@ -45,7 +45,10 @@ else if(value===true) {
     const controles=useDragControls()
     const [isShowToogle,setIsShowToogle]=useState(false)
   return (
-    <Reorder.Item  className="select-none"
+    <Reorder.Item  
+    
+    transition={{duration:0.25}}
+    className={`flex flex-col gap-2  select-none ${isSelected? "border-t-4 border-teal-500" : ""}`}
     onMouseLeave={(e)=>{
         e.preventDefault()
         e.stopPropagation()
@@ -103,7 +106,7 @@ onClick={(e)=>{
    {isSelected&&        <input  
    onBlur={(e)=>{
     e.stopPropagation()
-    dispatch(changeSpecifiqueLabel({id:id,inputLabel:isUsingText,title:isUsingText,optional:false,type:"text",option:[isUsingText]}))
+    dispatch(changeSpecifiqueLabel({id:id,newTitle:isUsingText}))
 
    }}
    value={isUsingText} ref={refInput} 

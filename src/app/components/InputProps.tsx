@@ -1,18 +1,21 @@
 "use client"
 
 import { useState } from "react"
+import { changeOptionChoice } from "../features/formInput/formSlice"
+import { useAppDispatch } from "../hook"
 
 interface InputProps{
     isChange:boolean
     value:string
     id:string
+    index:number
   
     saveChange:(idString:string,val:string)=>void
     deleteOption:(idStringe:string)=>void
 }
-export const InputProps = ({isChange,id,value,saveChange,deleteOption}:InputProps) => {
+export const InputProps = ({index,isChange,id,value,saveChange,deleteOption}:InputProps) => {
     const [isInput,setIsInput]=useState(value)
-    
+    const dispatch=useAppDispatch()
   return (
     <div className={`flex w-full h-full gap-4 p-2 items-center justify-center  
   
@@ -23,9 +26,9 @@ export const InputProps = ({isChange,id,value,saveChange,deleteOption}:InputProp
    `}>
 
     </div>
-    <input  disabled={isChange}
+    <input  disabled={isChange? false : true}
     onBlur={()=>{
-        saveChange(id,isInput)
+        dispatch(changeOptionChoice({id:id,indexChange:index,newOption:isInput}))
     }}
     value={isInput}
     onChange={(e)=>{
@@ -36,12 +39,12 @@ export const InputProps = ({isChange,id,value,saveChange,deleteOption}:InputProp
      </div>
 
 
-<div>
+{isChange&&<div>
     <button onClick={(e)=>{
         e.preventDefault()
         e.stopPropagation()
         deleteOption(id)}}>Delete</button>
-</div>
+</div>}
  </div>
   )
 }

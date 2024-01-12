@@ -75,7 +75,7 @@ const Test=useAppSelector(e=>e.form.idSelected)
     
         <div className=' flex flex-col gap-8 p-4   min-h-[400px] text-slate-800'>
         <h3 className='pl-10 text-2xl py-2'>Questionaire</h3>
-        <Reorder.Group 
+        <Reorder.Group  transition={{duration:0.25}}
         
         axis='y' values={allValue} 
         className="gap-2 flex flex-col"

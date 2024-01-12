@@ -17,6 +17,15 @@ interface FormStat {
  formCreated:formCreated[]
  
 }
+interface ChangeTitle{
+    id:string 
+    newTitle:string
+}
+interface PayLoadChangeOption{
+    id:string 
+    indexChange:number 
+    newOption:string
+}
 
 // Define the initial state using that type
 const initialState: FormStat = {
@@ -31,6 +40,23 @@ export const formSlice = createSlice({
   reducers: {
     reseatSelect:(state)=>{
         state.idSelected=""
+    },changeOptionChoice:(state,action:PayloadAction<PayLoadChangeOption>)=>{
+        const {id,indexChange,newOption}=action.payload
+        const newArrayState=[...state.formCreated]
+        const newArray=newArrayState.filter((e)=>{
+            
+            if(e.id===id)
+            {
+                
+                e.option[indexChange]=newOption
+                return  e
+            }
+            else {
+                return e
+            }
+        })
+        state.formCreated=newArray
+
     },
     // Use the PayloadAction type to declare the contents of `action.payload`
     selectForm: (state, action: PayloadAction<string>) => {
@@ -82,13 +108,13 @@ export const formSlice = createSlice({
             state.formCreated=filteredArray
     }
     
-  ,changeSpecifiqueLabel:(state,action:PayloadAction<formCreated>)=>{
-        const {id,inputLabel,optional}=action.payload
+  ,changeSpecifiqueLabel:(state,action:PayloadAction<ChangeTitle>)=>{
+        const {id,newTitle}=action.payload
         const newState=[...state.formCreated]
          let filteredArray=newState.map((e)=>{
             if(e.id===id)
             {
-                return {...e,inputLabel:inputLabel,optional}
+                return {...e,title:newTitle}
             }
             else {
                 return e
@@ -100,7 +126,7 @@ export const formSlice = createSlice({
   },
 })
 
-export const {reOrderInput,changeOptionalField,duplicateForm,deleteForm,changeSpecifiqueLabel,addNewForm, selectForm,reseatSelect } = formSlice.actions
+export const {changeOptionChoice,reOrderInput,changeOptionalField,duplicateForm,deleteForm,changeSpecifiqueLabel,addNewForm, selectForm,reseatSelect } = formSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
 

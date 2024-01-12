@@ -7,7 +7,7 @@ import {v4} from "uuid"
 import { InputProps } from "./InputProps"
 import AddComponent from "./AddComponent"
 import { useAppDispatch, useAppSelector } from "../hook"
-import { deleteForm, selectForm } from "../features/formInput/formSlice"
+import { changeSpecifiqueLabel, deleteForm, selectForm } from "../features/formInput/formSlice"
 import { Reorder, useDragControls } from "framer-motion"
 import { ReorderIcon } from "./ReoderIcon"
 import { SingleInputStat } from "./InputForm"
@@ -18,6 +18,7 @@ interface TypeMultipleChoice{
     values:SingleInputStat
     title:string
     option:string[]
+    
 }
 const MultipleChoice = ({title,option,values,numberQuestion,id,isSelected}:TypeMultipleChoice) => {
   
@@ -29,11 +30,12 @@ const MultipleChoice = ({title,option,values,numberQuestion,id,isSelected}:TypeM
    {option:"Choose option",id:v4(),isChange:false}])
 const [isChangeTitle,setIsChangeTitle]=useState(title)
    const controles=useDragControls()
- const allOptions=option.map((e)=>{
-    return <InputProps 
+   const [isMouseEnter,setIsMouseEnter]=useState(false)
+ const allOptions=option.map((e,i)=>{
+    return <InputProps   index={i}
     isChange={isSelected}
     deleteOption={deleteSpecialForm}
-    id={v4()} saveChange={changeOptionValue}
+    id={id} saveChange={changeOptionValue}
     value={e} key={v4()}/>
  })
  console.log(isChoice)
@@ -85,19 +87,27 @@ setIsChoice((e)=>([...e,{option:"Autre",id:v4(),isChange:true}]))
 }
  }
    return (
-<Reorder.Item value={values} className="flex flex-col gap-2 "
+<Reorder.Item
+transition={{duration:0.25}}
+value={values} className={`flex flex-col gap-2  select-none ${isSelected? "border-t-4 border-teal-500" : ""}`}
 dragControls={controles}
+onMouseEnter={()=>{
+    setIsMouseEnter(true)
+}}
+onMouseLeave={()=>{
+    setIsMouseEnter(false)
+}}
 dragListener={false}>
    <section 
    onDoubleClick={()=>{
     dispatch(selectForm(id))
    }}
-   className={`flex flex-col  p-2   ${isSelected? "bg-[#f5f5f5]" : "bg-white"}
+   className={`flex flex-col  p-2 ${isMouseEnter? "bg-[#f5f5f5]" : "bg-white"}  ${isSelected? "bg-[#f5f5f5]" : "bg-white"}
     gap-4 h-full w-full `}>
        
-       <div className="flex justify-center w-full p-4">
+      {isMouseEnter&&!isSelected&& <div className="flex justify-center w-full p-4">
        <ReorderIcon dragControls={controles}/>
-        </div>
+        </div>}
 
     {isSelected&&    <div className="flex justify-end w-full">
         <button onClick={()=>{
@@ -106,7 +116,11 @@ dragListener={false}>
         </div>}
 <div className="flex">
     <p>{numberQuestion+"."}</p>
-    <input  onChange={(e)=>{
+    <input 
+    onBlur={()=>{
+        dispatch(changeSpecifiqueLabel({id:id,newTitle:isChangeTitle}))
+    }}
+    onChange={(e)=>{
         setIsChangeTitle(e.target.value)
     }}
     value={isChangeTitle}
@@ -115,14 +129,14 @@ dragListener={false}>
 </div>
 <div className={`flex flex-col  p-4 ${isSelected? "" : ""}`}>
 {allOptions}
-<div className="flex justify-between p-4 text-sm">
+{isSelected&&<div className="flex justify-between p-4 text-sm">
     <button 
     className="hover:bg-emerald-500 duration-200 py-2 px-2 rounded-lg hover:text-slate-100"
     onClick={addOption}>Add option</button>
 {dataTest!=true&&    <button 
     className="hover:bg-emerald-500 duration-200 py-2 px-2 rounded-lg hover:text-slate-100"
     onClick={addOptionOther}>Add option other</button>}
-</div>
+</div>}
 
 </div>
 
