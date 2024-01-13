@@ -13,6 +13,7 @@ import { ReorderIcon } from "./ReoderIcon"
 import { SingleInputStat } from "./InputForm"
 import { useEffect } from "react"
 import { useRef } from "react"
+import {useDebounce} from "use-debounce"
 interface TypeMultipleChoice{
   id:string
     numberQuestion:number
@@ -26,21 +27,32 @@ const MultipleChoice = ({title,option,values,numberQuestion,id,isSelected}:TypeM
   
   
     const dispatch=useAppDispatch()
-
+    const inputRef=useRef<HTMLInputElement>(null)
     const idSelected=useAppSelector(s=>s.form.idSelected)
     const [isChoice,setIsChoice]=useState([{option:"Choose option",id:`${v4()}`,isChange:false},
    {option:"Choose option",id:v4(),isChange:false}])
 const [isChangeTitle,setIsChangeTitle]=useState(title)
    const controles=useDragControls()
    const [isMouseEnter,setIsMouseEnter]=useState(false)
+
  const allOptions=option.map((e,i)=>{
-    return <InputProps   index={i}
+    return (
+    <div  className="flex flex-col "
+    key={v4()}
+    onClick={(e)=>{
+        inputRef.current?.blur()
+
+e.stopPropagation()
+    }}>
+        <InputProps   isSelected={isSelected}
+    refInput={inputRef}
+    index={i}
     isChange={isSelected}
     deleteOption={deleteSpecialForm}
     id={id} saveChange={changeOptionValue}
-    value={e} key={v4()}/>
+    value={e} key={v4()}/></div>)
  })
- console.log(isChoice)
+
  const isChangedAdded=isChoice.filter((e)=>{
     if(e.isChange===true)
     {
@@ -82,20 +94,21 @@ setIsChoice((e)=>([...e,{option:"Autre",id:v4(),isChange:true}]))
         }
        
     })
-    console.log(filteredAlData)
+   
     if(filteredAlData)
     {
     setIsChoice(filteredAlData)
 }
  }
+ const [isValueDebouce]=useDebounce(isChangeTitle,1000)
 
- const inputRef=useRef<HTMLInputElement>(null)
  useEffect(()=>{
 if(isSelected&&inputRef.current)
 {
     inputRef.current.focus()
+    dispatch(changeSpecifiqueLabel({id:id,newTitle:isValueDebouce}))
 }
- },[isSelected])
+ },[isSelected,isValueDebouce])
    return (
 <Reorder.Item
 transition={{duration:0.25}}
@@ -111,10 +124,13 @@ onMouseLeave={()=>{
 dragListener={false}>
    <section 
    onDoubleClick={()=>{
+    if(isSelected===false)
+    {
     dispatch(selectForm(id))
+}
    }}
-   className={`flex flex-col 
-    p-2 ${isMouseEnter&&!isSelected? "bg-[#f5f5f5]"  :"bg-white"} 
+   className={`flex flex-col  bg-white
+    p-2 ${isMouseEnter? "bg-[#f5f5f5]" : "bg-white" } ${isSelected&&"bg-[#f5f5f5]"} 
     gap-2 h-full w-full `}>
        
       <div className={`flex justify-center w-full pt-2 ${isMouseEnter&&!isSelected? "opacity-100" :"opacity-0"}`}>
@@ -122,24 +138,28 @@ dragListener={false}>
         </div>
 
     {isSelected&&    <div className="flex justify-end w-full">
-        <button onClick={()=>{
+        <button onClick={(e)=>{
+            e.stopPropagation()
             dispatch(deleteForm(id))
         }}>Delete</button>
         </div>}
 <div className="flex w-full h-full items-center justify-center gap-2">
     <p>{numberQuestion+"."}</p>
     <input ref={inputRef}  
-    onBlur={()=>{
-        dispatch(changeSpecifiqueLabel({id:id,newTitle:isChangeTitle}))
-    }}
+    // onBlur={(e)=>{
+    //     inputRef.current?.blur()
+    //     e.stopPropagation()
+    //     dispatch(changeSpecifiqueLabel({id:id,newTitle:isChangeTitle}))
+    // }}
     onChange={(e)=>{
+        e.stopPropagation()
         setIsChangeTitle(e.target.value)
     }}
     value={isChangeTitle}
     className={`w-full outline-none py-1 ${isSelected? "bg-white border-b-2 border-teal-600" : "bg-transparent"}`}
      placeholder="Choisisez la question"/>
 </div>
-<div className={`flex flex-col  p-4 ${isSelected? "" : ""}`}>
+<div className={`flex flex-col  p-4 gap-4 ${isSelected? "" : ""}`}>
 {allOptions}
 {isSelected&&<div className="flex justify-between p-4 text-sm">
     <button 

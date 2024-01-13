@@ -26,6 +26,10 @@ interface PayLoadChangeOption{
     indexChange:number 
     newOption:string
 }
+interface deleteSpecifiqueOption{
+    id:string 
+    indexChange:number
+}
 
 // Define the initial state using that type
 const initialState: FormStat = {
@@ -107,7 +111,23 @@ export const formSlice = createSlice({
          })
             state.formCreated=filteredArray
     }
-    
+    ,deleteSpecifiqueOption:(state,action:PayloadAction<deleteSpecifiqueOption>)=>{
+
+const {id,indexChange}=action.payload
+const newArray=[...state.formCreated]
+const newArrayOption=newArray.map((e)=>{
+    if(e.id===id)
+    {
+        const newOptionArray=e.option.slice(0,indexChange).concat(e.option.slice(indexChange+1))
+        e.option=newOptionArray
+        return e
+    }
+    else {
+        return e
+    }
+})
+state.formCreated=newArrayOption
+    }
   ,changeSpecifiqueLabel:(state,action:PayloadAction<ChangeTitle>)=>{
         const {id,newTitle}=action.payload
         const newState=[...state.formCreated]
@@ -126,7 +146,7 @@ export const formSlice = createSlice({
   },
 })
 
-export const {changeOptionChoice,reOrderInput,changeOptionalField,duplicateForm,deleteForm,changeSpecifiqueLabel,addNewForm, selectForm,reseatSelect } = formSlice.actions
+export const {deleteSpecifiqueOption,changeOptionChoice,reOrderInput,changeOptionalField,duplicateForm,deleteForm,changeSpecifiqueLabel,addNewForm, selectForm,reseatSelect } = formSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
 

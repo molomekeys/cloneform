@@ -30,17 +30,19 @@ const InputForm = ({title,optionQuestion,valueOfDar,number,id,isSelected,inputLa
     const [isObligatory,setIsObligatory]=useState(false)
     const refInput=useRef<HTMLInputElement>(null)
     const [value] = useDebounce(isOpenMenu, 1000);
+    const [isValue]=useDebounce(isUsingText,500)
 
     useEffect(()=>{
-if(isSelected&&value===false)
+if(isSelected)
 {
     refInput.current?.focus()
+    dispatch(changeSpecifiqueLabel({id:id,newTitle:isValue}))
     
 }
 else if(value===true) {
 
 }
-    },[isSelected,value])
+    },[isSelected,isValue])
     const dispatch=useAppDispatch()
     const controles=useDragControls()
     const [isShowToogle,setIsShowToogle]=useState(false)
@@ -106,11 +108,7 @@ onClick={(e)=>{
    {isSelected? "" : `${isUsingText}`}
     {isSelected===false&&optional? "*" : ""} </label>
    {isSelected&&        <input  
-   onBlur={(e)=>{
-    e.stopPropagation()
-    dispatch(changeSpecifiqueLabel({id:id,newTitle:isUsingText}))
-
-   }}
+   
    value={isUsingText} ref={refInput} 
     onChange={(e)=>{
         setIsUsingText(e.target.value)

@@ -14,7 +14,9 @@ const AddComponent = () => {
         <div>
            
             <button onClick={()=>{
-                 dispatch(addNewForm({id:v4(),inputLabel:"Question",title:"Entrez votre question",optional:false,type:"multipleChoice",option:["Choissisez une question",
+                 dispatch(addNewForm({id:v4(),inputLabel:"Question",title:"Entrez votre question",
+                 optional:false,type:"multipleChoice"
+                 ,option:["Choissisez une question",
                  "Choissisez une question"]}))
             }}
             >Choix</button>
