@@ -1,8 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import { useAppDispatch } from "../hook"
-import { addNewForm } from "../features/formInput/formSlice"
+import { useAppDispatch } from "../../../app/hook"
+import { addNewForm } from "../../../features/formInput/formSlice"
 import {v4} from "uuid"
 const AddComponent = () => {
     const [isSelected,setIsSelected]=useState(false)
@@ -15,7 +15,7 @@ const AddComponent = () => {
            
             <button onClick={()=>{
                  dispatch(addNewForm({id:v4(),inputLabel:"Question",title:"Entrez votre question",
-                 optional:false,type:"multipleChoice"
+                 optional:false,type:"multiple_choice"
                  ,option:["Choissisez une question",
                  "Choissisez une question"]}))
             }}
@@ -23,7 +23,7 @@ const AddComponent = () => {
             </div>
             <div>
             <p onClick={()=>{
-                dispatch(addNewForm({id:v4(),inputLabel:"Question",title:"Entrez votre question",optional:false,type:"singleChoice",option:["Choisissez une question"]}))
+                dispatch(addNewForm({id:v4(),inputLabel:"Question",title:"Entrez votre question",optional:false,type:"text",option:["Choisissez une question"]}))
             }}>Text</p>
             </div>
     </div>:

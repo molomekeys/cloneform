@@ -5,10 +5,10 @@ import { useEffect } from "react"
 import { useRef } from "react"
 import { useState } from "react"
 import {AnimatePresence, motion, Reorder, useDragControls} from "framer-motion"
-import { useAppDispatch } from "../hook"
+import { useAppDispatch } from "../../../app/hook"
 import { useDebounce } from 'use-debounce';
 
-import { changeOptionalField, changeSpecifiqueLabel, deleteForm, duplicateForm, reseatSelect, selectForm } from "../features/formInput/formSlice"
+import { changeOptionalField, changeSpecifiqueLabel, deleteForm, duplicateForm, reseatSelect, selectForm } from "../../../features/formInput/formSlice"
 import { ReorderIcon } from "./ReoderIcon"
 export interface SingleInputStat{
     inputLabel:string ,optional:boolean,id:string

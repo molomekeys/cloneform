@@ -2,10 +2,12 @@
 
 import { RefObject } from "react"
 import { useState } from "react"
-import { changeOptionChoice, deleteSpecifiqueOption } from "../features/formInput/formSlice"
-import { useAppDispatch } from "../hook"
+import { changeOptionChoice, deleteSpecifiqueOption } from "../../../features/formInput/formSlice"
+import { useAppDispatch } from "../../../app/hook"
 import {useDebounce} from "use-debounce"
 import { useEffect } from "react"
+import { AiOutlineDelete } from "react-icons/ai";
+
 interface InputProps{
     isChange:boolean
     value:string
@@ -20,17 +22,21 @@ export const InputProps = ({isSelected,refInput,index,isChange,id,value,saveChan
     const [isInput,setIsInput]=useState(value)
     const dispatch=useAppDispatch()
     const [debounceValue]=useDebounce(isInput,500)
+    const [isMouseEnter,setIsMouseEnter]=useState(false)
   return (
-    <div
+    <div onMouseEnter={()=>{
+        setIsMouseEnter(true)
+    }}
+    onMouseLeave={()=>{
+        setIsMouseEnter(false)
+        dispatch(changeOptionChoice({id:id,indexChange:index,newOption:isInput}))
+       
+    }}
     
-    className={`flex w-full h-full gap-2 p-2 items-center justify-center  
+    className={`flex w-full h-full gap-4 p-2 items-center justify-center  
   
     `}>
-        <div 
-        onMouseLeave={()=>{
-            dispatch(changeOptionChoice({id:id,indexChange:index,newOption:isInput}))
-
-        }}
+        <div  
         className={`flex gap-2 w-full h-full items-center justify-center`}>
     <div className={`p-2 rounded-full 
     border-[2px] w-4 h-4 border-black ${isChange? "bg-white" : "bg-transparent"}
@@ -47,18 +53,21 @@ export const InputProps = ({isSelected,refInput,index,isChange,id,value,saveChan
 
 
     }}
-    className={`w-full p-2  ${isChange? "bg-white" : "bg-transparent"}`}
+    className={`w-full p-2  ${isChange? "bg-white" : "bg-transparent"} ${isMouseEnter&&isChange&&"outline-none border-b-2 border-teal-500"}` }
      placeholder="Entrez le nom de l'option"/>
      </div>
 
 
-{isChange&&<div>
+{isMouseEnter&&isChange&&<div>
     <button onClick={(e)=>{
      
         e.stopPropagation()
        
 
-        dispatch(deleteSpecifiqueOption({id:id,indexChange:index}))}}>Delete</button>
+        dispatch(deleteSpecifiqueOption({id:id,indexChange:index}))}}>
+
+            <AiOutlineDelete size={25} className="text-slate-500"/>
+        </button>
 </div>}
  </div>
   )

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import ShowData from '../components/mycomponent/components/ShowData'
 import './globals.css'
 import { ReduxProvider } from './ReduxProvider'
 
@@ -18,7 +19,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <ReduxProvider>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+     
+        {children}</body>
+      
       </ReduxProvider>
     </html>
   )

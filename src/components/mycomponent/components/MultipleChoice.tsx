@@ -6,8 +6,8 @@ import { Label } from "@/components/ui/label"
 import {v4} from "uuid"
 import { InputProps } from "./InputProps"
 import AddComponent from "./AddComponent"
-import { useAppDispatch, useAppSelector } from "../hook"
-import { changeSpecifiqueLabel, deleteForm, selectForm } from "../features/formInput/formSlice"
+import { useAppDispatch, useAppSelector } from "../../../app/hook"
+import { changeSpecifiqueLabel, deleteForm, selectForm } from "../../../features/formInput/formSlice"
 import { Reorder, useDragControls } from "framer-motion"
 import { ReorderIcon } from "./ReoderIcon"
 import { SingleInputStat } from "./InputForm"
@@ -34,6 +34,20 @@ const MultipleChoice = ({title,option,values,numberQuestion,id,isSelected}:TypeM
 const [isChangeTitle,setIsChangeTitle]=useState(title)
    const controles=useDragControls()
    const [isMouseEnter,setIsMouseEnter]=useState(false)
+
+
+
+
+   const [isValueDebouce]=useDebounce(isChangeTitle,1000)
+
+   useEffect(()=>{
+  if(isSelected&&inputRef.current)
+  {
+      inputRef.current.focus()
+      dispatch(changeSpecifiqueLabel({id:id,newTitle:isValueDebouce}))
+  }
+   },[isSelected,isValueDebouce])
+
 
  const allOptions=option.map((e,i)=>{
     return (
@@ -100,20 +114,12 @@ setIsChoice((e)=>([...e,{option:"Autre",id:v4(),isChange:true}]))
     setIsChoice(filteredAlData)
 }
  }
- const [isValueDebouce]=useDebounce(isChangeTitle,1000)
 
- useEffect(()=>{
-if(isSelected&&inputRef.current)
-{
-    inputRef.current.focus()
-    dispatch(changeSpecifiqueLabel({id:id,newTitle:isValueDebouce}))
-}
- },[isSelected,isValueDebouce])
    return (
 <Reorder.Item
 transition={{duration:0.25}}
 value={values} className={`flex flex-col gap-2  transition-all
- duration-0 select-none ${isSelected? "border-t-4 border-teal-500" : ""}`}
+ duration-0 select-none ${isSelected? "border-t-4 border-teal-500 bg-[#f5f5f5]" : ""}`}
 dragControls={controles}
 onMouseEnter={()=>{
     setIsMouseEnter(true)
@@ -129,8 +135,8 @@ dragListener={false}>
     dispatch(selectForm(id))
 }
    }}
-   className={`flex flex-col  bg-white
-    p-2 ${isMouseEnter? "bg-[#f5f5f5]" : "bg-white" } ${isSelected&&"bg-[#f5f5f5]"} 
+   className={`flex flex-col 
+    p-2 ${isMouseEnter&&isSelected===false&&"bg-[#f5f5f5]"} ${isSelected&&"bg-[#f5f5f5]"} 
     gap-2 h-full w-full `}>
        
       <div className={`flex justify-center w-full pt-2 ${isMouseEnter&&!isSelected? "opacity-100" :"opacity-0"}`}>
