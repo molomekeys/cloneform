@@ -14,16 +14,15 @@ const AddComponent = () => {
         <div>
            
             <button onClick={()=>{
-                 dispatch(addNewForm({id:v4(),inputLabel:"Question",title:"Entrez votre question",
+                 dispatch(addNewForm({id:v4(),title:"Entrez votre question",
                  optional:false,type:"multiple_choice"
-                 ,option:["Choissisez une question",
-                 "Choissisez une question"]}))
+                 ,optionalquestion:{choice:["Entrez une question","Entrez une question"]}}))
             }}
             >Choix</button>
             </div>
             <div>
             <p onClick={()=>{
-                dispatch(addNewForm({id:v4(),inputLabel:"Question",title:"Entrez votre question",optional:false,type:"text",option:["Choisissez une question"]}))
+                dispatch(addNewForm({id:v4(),optionalquestion:{},title:"Entrez votre question",optional:false,type:"text"}))
             }}>Text</p>
             </div>
     </div>:

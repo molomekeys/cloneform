@@ -11,19 +11,19 @@ import { useDebounce } from 'use-debounce';
 import { changeOptionalField, changeSpecifiqueLabel, deleteForm, duplicateForm, reseatSelect, selectForm } from "../../../features/formInput/formSlice"
 import { ReorderIcon } from "./ReoderIcon"
 export interface SingleInputStat{
-    inputLabel:string ,optional:boolean,id:string
+   optional:boolean,id:string
 }
 interface PropsInput{
 number : number
 id:string
 isSelected:boolean
 optional:boolean
-inputLabel:string
+
 valueOfDar:SingleInputStat
-optionQuestion:string
+
 title:string
 }
-const InputForm = ({title,optionQuestion,valueOfDar,number,id,isSelected,inputLabel,optional}:PropsInput) => {
+const InputForm = ({title,valueOfDar,number,id,isSelected,optional}:PropsInput) => {
    
     const [isUsingText,setIsUsingText]=useState(title)
     const [isOpenMenu,setIsOpenMenu]=useState(false)

@@ -65,7 +65,7 @@ e.stopPropagation()
     deleteOption={deleteSpecialForm}
     id={id} saveChange={changeOptionValue}
     value={e} key={v4()}/></div>)
- })
+ }) 
 
  const isChangedAdded=isChoice.filter((e)=>{
     if(e.isChange===true)

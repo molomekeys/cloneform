@@ -18,7 +18,7 @@ const SubmitComponent = () => {
         {
             //@ts-ignore
             const filteredForm=actualForm.map((e)=>{
-                return ({title:e.title,form_id:data.id,type:e.type,option:e.option})
+                return ({title:e.title,form_id:data.id,type:e.type,optional:e.optional,choice:e.optionalquestion?.choice||['']})
             })
 
             const choiceQuestions = filteredForm.filter(q => q.type === "multiple_choice")
@@ -33,7 +33,7 @@ const SubmitComponent = () => {
         let allIdOfQuestion=await supabase.from("questiontable").insert(choiceFiltered).select("id")
     
         let newArray=allIdOfQuestion.data?.map((e,i)=>{
-            return {question_id:e.id,choice:choiceQuestions[i]?.option}
+            return {question_id:e.id,choice:choiceQuestions[i].choice}
         })
         if(newArray)
         {

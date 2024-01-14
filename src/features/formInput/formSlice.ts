@@ -2,14 +2,18 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import {v4} from "uuid"
 // Define a type for the slice state
-interface formCreated{
+
+interface OptionalquestionType{
+    choice?:string[]
+}
+export interface formCreated{
 
         id:string
         title:string
         optional:boolean
-        inputLabel:string
+       
         type:string
-        option:string[]
+        optionalquestion:OptionalquestionType|null
      
 }
 interface FormStat {
@@ -42,6 +46,11 @@ export const formSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
+
+    setInitialState:(state,action:PayloadAction<formCreated[]>)=>{
+        state.formCreated=action.payload
+
+    },
     reseatSelect:(state)=>{
         state.idSelected=""
     },changeOptionChoice:(state,action:PayloadAction<PayLoadChangeOption>)=>{
@@ -52,8 +61,11 @@ export const formSlice = createSlice({
             if(e.id===id)
             {
                 
-                e.option[indexChange]=newOption
+                if(e.optionalquestion?.choice)
+                {
+                e.optionalquestion.choice[indexChange]=newOption
                 return  e
+                }
             }
             else {
                 return e
@@ -116,17 +128,24 @@ export const formSlice = createSlice({
 const {id,indexChange}=action.payload
 const newArray=[...state.formCreated]
 const newArrayOption=newArray.map((e)=>{
-    if(e.id===id)
+    if(e.id===id&&e.optionalquestion?.choice)
     {
-        const newOptionArray=e.option.slice(0,indexChange).concat(e.option.slice(indexChange+1))
-        e.option=newOptionArray
-        return e
+      
+            const newOptionArray=e.optionalquestion.choice.slice(0,indexChange).concat(
+                e.optionalquestion.choice.slice(indexChange+1))
+            e.optionalquestion.choice=newOptionArray
+            return e
+        
+       
     }
     else {
         return e
     }
 })
+if(newArrayOption)
+{
 state.formCreated=newArrayOption
+}
     }
   ,changeSpecifiqueLabel:(state,action:PayloadAction<ChangeTitle>)=>{
         const {id,newTitle}=action.payload
@@ -146,7 +165,7 @@ state.formCreated=newArrayOption
   },
 })
 
-export const {deleteSpecifiqueOption,changeOptionChoice,reOrderInput,changeOptionalField,duplicateForm,deleteForm,changeSpecifiqueLabel,addNewForm, selectForm,reseatSelect } = formSlice.actions
+export const {setInitialState,deleteSpecifiqueOption,changeOptionChoice,reOrderInput,changeOptionalField,duplicateForm,deleteForm,changeSpecifiqueLabel,addNewForm, selectForm,reseatSelect } = formSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
 

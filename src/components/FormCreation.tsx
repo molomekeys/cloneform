@@ -1,21 +1,24 @@
 "use client"
 import Image from 'next/image'
-import { useState } from 'react'
-import InputForm from '../../../components/mycomponent/components/InputForm'
-import {useAppDispatch, useAppSelector} from "../../hook"
+import { useEffect, useState } from 'react'
+import InputForm from './mycomponent/components/InputForm'
+import {useAppDispatch, useAppSelector} from "../app/hook"
 import {v4} from "uuid"
 import {useDebounce} from "use-debounce"
-import { addNewForm, reOrderInput, reseatSelect } from '../../../features/formInput/formSlice'
+import { addNewForm, formCreated, reOrderInput, reseatSelect,setInitialState } from '../features/formInput/formSlice'
 import { Reorder,useDragControls } from 'framer-motion'
-import MultipleChoice from '../../../components/mycomponent/components/MultipleChoice'
-import AddComponent from '../../../components/mycomponent/components/AddComponent'
-import SubmitComponent from '../../../components/mycomponent/components/SubmitComponent'
+import MultipleChoice from './mycomponent/components/MultipleChoice'
+import AddComponent from './mycomponent/components/AddComponent'
+import SubmitComponent from './mycomponent/components/SubmitComponent'
 interface InputDataState{
  labelInput:string ,optional:boolean,id:string
 
 
 }
-export default function Home() {
+interface FormCreationProps{
+  data? :formCreated[]
+}
+export default function FormCreation({data}:FormCreationProps) {
 
 
   const [isAddedData,setIsAddedData]=useState<InputDataState[]>([])
@@ -28,8 +31,14 @@ const Test=useAppSelector(e=>e.form.idSelected)
   }
   const allValue=useAppSelector(v=>v.form.formCreated)
   const controls = useDragControls()
+  useEffect(()=>{
+if(data)
+{
+    dispatch(setInitialState(data))
+  }
+  },[])
 
-  const allInput=allValue.map((e,i)=>{
+  const allInput=allValue?.map((e,i)=>{
 
       
       
@@ -38,19 +47,19 @@ const Test=useAppSelector(e=>e.form.idSelected)
       case"text":
      return <InputForm  
      
-     optionQuestion={e.option[0]}
+    
      valueOfDar={e}
  
      optional={e.optional}
      key={e.id} title={e.title}
-     inputLabel={e.inputLabel}
+    
      isSelected={e.id===Test} id={e.id} number={i+1}/>
    
      
      break ;
      case "multiple_choice":
      return <MultipleChoice title={e.title}
-     option={e.option}
+     option={e.optionalquestion?.choice||[]}
      key={e.id}
      values={e}
      isSelected={e.id===Test}

@@ -12,7 +12,7 @@ const page = async ({ params }: { params: { idform: string } }) => {
 
     const supabase=createServerComponentClient<Database>({cookies})
     const {data}=await supabase.from("questiontable")
-    .select(`id,title,type,
+    .select(`id,title,type,optional,
     optionalquestion(
       *
     )
@@ -27,7 +27,7 @@ switch(e.type)
   title={e.title? e.title :""} key={e.id}/>
   break;
   case "multiple_choice":
-  return <RadioGroupeComponent option={e?.optionalquestion[0]?.choice||[""]}
+  return <RadioGroupeComponent option={e?.optionalquestion?.choice||[""]}
   title={e.title? e.title : ""}/>
   break;
 

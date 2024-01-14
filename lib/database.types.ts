@@ -13,30 +13,33 @@ export interface Database {
         Row: {
           created_at: string
           id: string
+          title: string | null
         }
         Insert: {
           created_at?: string
           id?: string
+          title?: string | null
         }
         Update: {
           created_at?: string
           id?: string
+          title?: string | null
         }
         Relationships: []
       }
       optionalquestion: {
         Row: {
-          choice: string[] | null
+          choice: string[]
           id: number
           question_id: string | null
         }
         Insert: {
-          choice?: string[] | null
+          choice: string[]
           id?: number
           question_id?: string | null
         }
         Update: {
-          choice?: string[] | null
+          choice?: string[]
           id?: number
           question_id?: string | null
         }
@@ -44,7 +47,7 @@ export interface Database {
           {
             foreignKeyName: "optionalquestion_question_id_fkey"
             columns: ["question_id"]
-            isOneToOne: false
+            isOneToOne: true
             referencedRelation: "questiontable"
             referencedColumns: ["id"]
           }
@@ -54,20 +57,23 @@ export interface Database {
         Row: {
           form_id: string | null
           id: string
-          title: string | null
-          type: string | null
+          optional: boolean
+          title: string
+          type: string
         }
         Insert: {
           form_id?: string | null
           id?: string
-          title?: string | null
-          type?: string | null
+          optional?: boolean
+          title?: string
+          type: string
         }
         Update: {
           form_id?: string | null
           id?: string
-          title?: string | null
-          type?: string | null
+          optional?: boolean
+          title?: string
+          type?: string
         }
         Relationships: [
           {
