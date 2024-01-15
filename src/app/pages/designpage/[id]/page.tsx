@@ -15,12 +15,16 @@ const page = async({params}:{params:{id:string}}) => {
   {
     return 
   }
+
   else {
+    console.log(data.questiontable)
   return (
-  <main>
+  <main className="flex flex-col w-full items-center bg-gradient-to-tr from-teal-200 to-teal-600">
+    <div className="flex flex-col w-3/5">
     <h2 className="text-3xl">{data?.title}</h2>
-    <p>{JSON.stringify(data)}</p>
+ 
     <FormCreation data={data.questiontable}/>
+    </div>
   </main>
   )
 }

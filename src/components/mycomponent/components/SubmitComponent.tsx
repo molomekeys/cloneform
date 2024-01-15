@@ -2,9 +2,12 @@
 import { useAppSelector } from "@/app/hook"
 import {createServerComponentClient,createClientComponentClient} from "@supabase/auth-helpers-nextjs"
 import { cookies } from "next/headers"
-const SubmitComponent = () => {
+
+const SubmitComponent = ({}) => {
     const supabase =createClientComponentClient<Database>()
     const actualForm=useAppSelector(e=>e.form.formCreated)
+   
+   
     async function addRow(){
         const date = new Date()
         const {data,error}=await supabase.from("forms").insert({

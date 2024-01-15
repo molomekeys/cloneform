@@ -20,7 +20,7 @@ interface FormCreationProps{
 }
 export default function FormCreation({data}:FormCreationProps) {
 
-
+console.log(data)
   const [isAddedData,setIsAddedData]=useState<InputDataState[]>([])
 const Test=useAppSelector(e=>e.form.idSelected)
   const dispatch=useAppDispatch()
@@ -44,6 +44,7 @@ if(data)
       
      switch(e.type)
      {
+      case "number":
       case"text":
      return <InputForm  
      
@@ -66,6 +67,8 @@ if(data)
      id={e.id}
      numberQuestion={i+1}/>
      break;
+  
+  
      }
      
   })
@@ -73,12 +76,13 @@ if(data)
   const [isText,setIsText]=useState("")
   const [value]=useDebounce(isText,1000)
   return (
-  <main className='flex flex-col bg-gradient-to-tr from-teal-200 items-center justify-center  to-slate-100  min-h-screen'>
+  <main className='flex flex-col bg-gradient-to-tr  i
+  tems-center justify-center  min-h-screen'>
 
     <SubmitComponent/>
      
       
-      <section className='flex flex-col bg-white w-3/5  h-full p-20 ' onClick={(e)=>{
+      <section className='flex flex-col bg-white w-full  h-full p-20 ' onClick={(e)=>{
      e.stopPropagation()
       dispatch(reseatSelect())
       }}>
