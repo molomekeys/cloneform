@@ -1,3 +1,4 @@
+"use client"
 import { useAppDispatch } from "@/app/hook"
 import {duplicateForm,deleteForm} from "../../.././features/formInput/formSlice"
 import {IoDuplicate} from "react-icons/io5"

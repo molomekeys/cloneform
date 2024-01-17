@@ -51,6 +51,37 @@ export const formSlice = createSlice({
         state.formCreated=action.payload
 
     },
+    changeOptionalInput:(state,action:PayloadAction<string>)=>{
+        const data=[...state.formCreated]
+        const changeOptional=data.map((e)=>{
+            if(e.id===action.payload)
+            {
+                return {...e,optional:!e.optional}
+            }
+            else {
+                return e
+            }
+        })
+        console.log(changeOptional)
+        state.formCreated=changeOptional
+
+    },
+    changeToTextArea:(state,action:PayloadAction<string>)=>{
+        const data=[...state.formCreated]
+        const changeOptional=data.map((e)=>{
+            if(e.id===action.payload)
+            {
+                return {...e,type:e.type==="text"? "textarea": "text"}
+            }
+            else {
+                return e
+            }
+        })
+        console.log(changeOptional)
+        state.formCreated=changeOptional
+
+    }
+    ,
     reseatSelect:(state)=>{
         state.idSelected=""
     },changeOptionChoice:(state,action:PayloadAction<PayLoadChangeOption>)=>{
@@ -165,7 +196,7 @@ state.formCreated=newArrayOption
   },
 })
 
-export const {setInitialState,deleteSpecifiqueOption,changeOptionChoice,reOrderInput,changeOptionalField,duplicateForm,deleteForm,changeSpecifiqueLabel,addNewForm, selectForm,reseatSelect } = formSlice.actions
+export const {changeToTextArea,changeOptionalInput,setInitialState,deleteSpecifiqueOption,changeOptionChoice,reOrderInput,changeOptionalField,duplicateForm,deleteForm,changeSpecifiqueLabel,addNewForm, selectForm,reseatSelect } = formSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
 

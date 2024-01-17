@@ -1,3 +1,4 @@
+"use client"
 import Link from "next/link"
 import { Button } from "../ui/button"
 const Navbar = () => {
@@ -8,11 +9,11 @@ const Navbar = () => {
     <div className="flex gap-4">
        <Link href={'/pages'} >
 
-         <Button>Dashboard</Button>
+         Dashboard
        </Link>
        <Link href={'/pages'} >
          
-       <Button>Login</Button>
+      Login
 
          </Link>
 

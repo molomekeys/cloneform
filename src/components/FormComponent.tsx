@@ -11,6 +11,7 @@ import {v4} from "uuid"
 import { ZodTypeAny } from "zod"
 import {useId} from "react"
 import { register } from "module"
+import { Textarea } from "./ui/textarea"
 let momo={
     name:z.string().min(1,{message:"too small"}),
     email:z.string().email(),
@@ -92,7 +93,7 @@ console.log(data)
         return fields.reduce((acc:DefaultValues, field) => {
 
            let  safeText=field.title.replace("."," ")
-            if (field.type === "text") {
+            if (field.type === "text"||"textarea") {
                 acc[safeText] = ""; // Default to empty string for strings
             } else if (field.type === "number") {
                 acc[safeText] = ""; // Default to 0 for numbers
@@ -130,10 +131,16 @@ const momo=useForm<z.infer<typeof zodTest>>()
                         htmlFor={singleId}
                       className="font-semibold text-slate-600 text-sm">{`${+e.order+". "+e.title}${e.optional?"":"*"}` }</Label>      
                         
+                       {e.type==="textarea"?
+                        <Textarea id={singleId}  {...form.register(test)}
+                         
+                         className="resize-none"
+                        />
+                       :
                         <Input id={singleId} type={e.type}  {...form.register(test)}
                          
                          
-                         />
+                         />}
                          <p className="text-xs text-red-500 font-semibold py-2">{form.formState.errors[test]?.message}</p>
                       
                           

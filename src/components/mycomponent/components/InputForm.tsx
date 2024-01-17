@@ -16,6 +16,9 @@ import { ReorderIcon } from "./ReoderIcon"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { cookies } from "next/headers"
 import ToolTipForm from "./ToolTipForm";
+import { SelectComponent } from "./SelectComponent";
+import FooterInput from "./FooterInput";
+import { Textarea } from "@/components/ui/textarea";
 export interface SingleInputStat{
    optional:boolean,id:string
 }
@@ -24,12 +27,12 @@ number : number
 id:string
 isSelected:boolean
 optional:boolean
-
+type:string
 valueOfDar:SingleInputStat
 
 title:string
 }
-const InputForm = ({title,valueOfDar,number,id,isSelected,optional}:PropsInput) => {
+const InputForm = ({title,valueOfDar,type,number,id,isSelected,optional}:PropsInput) => {
    
     const [isUsingText,setIsUsingText]=useState(title)
     const [isOpenMenu,setIsOpenMenu]=useState(false)
@@ -93,11 +96,11 @@ else if(value===true) {
     <ToolTipForm id={id}/>
     }
 
+
+
+
 <div className="flex w-full gap-2"
-onClick={(e)=>{
-    
-  
-    
+onClick={(e)=>{    
 }}
 >
 
@@ -120,55 +123,21 @@ onClick={(e)=>{
     <div className={`rounded-md   ${isSelected? "border-2 " 
     : ""} ${isShowToogle&&isSelected==false? "bg-[#f5f5f5]" : "bg-[#f5f5f5]"} `}>
    
-    <Input 
+ {type==="text"?   <Input 
     disabled
     className="text-slate-800 pl-2 py-1" placeholder="Entrez votre réponse"/>
+: <Textarea
+disabled
+className="text-slate-800 pl-2 py-1 resize-none" placeholder="Entrez votre réponse"/> }
     </div>
 
 
-    <AnimatePresence>    {isSelected? <motion.div 
-    key={"firstparent"}
-    className="flex flex-col" 
-   
-    layout >
-    <motion.div
-    className={`flex flex-row  w-fit
-   `}
-    >
-  <motion.div
-       onClick={(e)=>{
-       
-       
-    }}
-  className={`flex gap-2  `}
-   layout>
-
-
-    <motion.div onClick={(e)=>{
-        e.stopPropagation()
-       dispatch(changeOptionalField(id))
-    }}
-    key={"testBmomo"}
-    layout transition={{duration:0.1,}}
-    className={`flex w-14 rounded-full items-center p-1 ${optional? "bg-emerald-500  justify-end" : "bg-slate-200 "}`}>
-
-    <motion.div  transition={{duration:0.1}} layout
-    key={"test33momo"}
-    className={`h-4 w-4 rounded-full ${optional? "bg-white" : "bg-slate-900"}`}>
- {/**ça c'est le cercle pour le toggle */}
-    </motion.div>
-    </motion.div>
-    <p>Optional</p>
-
-    </motion.div>
-   
-
-    </motion.div>
- 
-    </motion.div> : <></>}
-    </AnimatePresence>
+    {isSelected&& <div className="w-full flex items-center justify-center">
+<FooterInput valueBol={optional} type={type}/>
+</div>}
 
     </div>
+  
     </Reorder.Item>
   )
 }

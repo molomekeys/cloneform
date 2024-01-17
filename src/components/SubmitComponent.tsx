@@ -56,10 +56,12 @@ const SubmitComponent = ({idForm}:SubmitComponentProps) => {
     onClick={addRow}
     className="bg-white cursor-pointer hover:bg-slate-200  rounded-md hover:duration-150 p-2">
         
-        <IoSaveOutline
+        <button><IoSaveOutline
                 
 
-        size={30} color="black"/></div>
+        size={30} color="black"/>
+        </button>
+        </div>
   )
 }
 export default SubmitComponent

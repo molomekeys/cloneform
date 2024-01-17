@@ -46,9 +46,10 @@ if(data)
      switch(e.type)
      {
       case "number":
+        case"textarea":
       case"text":
      return <InputForm  
-     
+      type={e.type}
     
      valueOfDar={e}
  
@@ -93,7 +94,7 @@ if(data)
         <Reorder.Group  transition={{duration:0.25}}
         
         axis='y' values={allValue} 
-        className="gap-2 flex flex-col"
+        className="gap-4 flex flex-col"
         onClick=
         {(e)=>e.stopPropagation()}
         onReorder={(e)=>{
