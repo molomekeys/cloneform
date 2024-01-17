@@ -9,7 +9,7 @@ import { addNewForm, formCreated, reOrderInput, reseatSelect,setInitialState } f
 import { Reorder,useDragControls } from 'framer-motion'
 import MultipleChoice from './mycomponent/components/MultipleChoice'
 import AddComponent from './mycomponent/components/AddComponent'
-import SubmitComponent from './mycomponent/components/SubmitComponent'
+import SubmitComponent from './SubmitComponent'
 interface InputDataState{
  labelInput:string ,optional:boolean,id:string
 
@@ -17,8 +17,9 @@ interface InputDataState{
 }
 interface FormCreationProps{
   data? :formCreated[]
+  title:string
 }
-export default function FormCreation({data}:FormCreationProps) {
+export default function FormCreation({data,title}:FormCreationProps) {
 
 console.log(data)
   const [isAddedData,setIsAddedData]=useState<InputDataState[]>([])
@@ -79,16 +80,16 @@ if(data)
   <main className='flex flex-col bg-gradient-to-tr  i
   tems-center justify-center  min-h-screen'>
 
-    <SubmitComponent/>
+
      
       
-      <section className='flex flex-col bg-white w-full  h-full p-20 ' onClick={(e)=>{
+      <section className='flex flex-col bg-white w-full  h-full px-8  ' onClick={(e)=>{
      e.stopPropagation()
       dispatch(reseatSelect())
       }}>
     
+    <h3 className='text-2xl font-semibold pt-16 pl-8'>{title}</h3>
         <div className=' flex flex-col gap-8 p-4   min-h-[400px] text-slate-800'>
-        <h3 className='pl-10 text-2xl py-2'>Questionaire</h3>
         <Reorder.Group  transition={{duration:0.25}}
         
         axis='y' values={allValue} 

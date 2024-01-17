@@ -58,6 +58,7 @@ export interface Database {
           form_id: string | null
           id: string
           optional: boolean
+          order: number
           title: string
           type: string
         }
@@ -65,6 +66,7 @@ export interface Database {
           form_id?: string | null
           id?: string
           optional?: boolean
+          order?: number
           title?: string
           type: string
         }
@@ -72,6 +74,7 @@ export interface Database {
           form_id?: string | null
           id?: string
           optional?: boolean
+          order?: number
           title?: string
           type?: string
         }

@@ -24,6 +24,7 @@ interface DynamicObject {
     optional:boolean
     type:string
     id:string
+    order:number
   }
 
   interface FormComponentProps{
@@ -57,7 +58,7 @@ console.log(data)
                 }
                 else {
                     object= object.merge(z.object({
-                        [safetitle]:z.string().min(1,`Vous devez indiquer une valeur`)
+                        [safetitle]:z.string().min(1,`Vous devez indiquer une valeur ${safetitle}`)
                     }))
                 }
                 break;
@@ -71,7 +72,7 @@ console.log(data)
         }
         else {
             object= object.merge(z.object({
-                [safetitle]:z.string().transform(v=>parseInt(v)).refine(
+                [safetitle]:z.string().min(1,{message:"Vous devez indiquez une valeur"}).transform(v=>parseInt(v)).refine(
                     (e)=>(!isNaN(e)),{message:"valeur non valide"}
                 )}))
         }
@@ -121,12 +122,15 @@ const momo=useForm<z.infer<typeof zodTest>>()
       let allValues=data.map((e)=>{
        console.log(e)
        const test=e.title.replace("."," ")
+       const singleId=useId()
         return(
           
           <div className="flex flex-col gap-2">
-                      <Label className="font-semibold text-slate-600 text-sm">{`${e.title}${+e.optional?"":"*"}` }</Label>      
+                      <Label 
+                        htmlFor={singleId}
+                      className="font-semibold text-slate-600 text-sm">{`${+e.order+". "+e.title}${e.optional?"":"*"}` }</Label>      
                         
-                        <Input type={e.type}  {...form.register(test)}
+                        <Input id={singleId} type={e.type}  {...form.register(test)}
                          
                          
                          />

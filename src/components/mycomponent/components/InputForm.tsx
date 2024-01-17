@@ -1,15 +1,21 @@
 "use client"
 
 import { Switch } from "@/components/ui/switch"
+import { AiOutlineDelete ,} from "react-icons/ai";
+import { IoDuplicate } from "react-icons/io5";
+
 import { useEffect } from "react"
 import { useRef } from "react"
 import { useState } from "react"
 import {AnimatePresence, motion, Reorder, useDragControls} from "framer-motion"
 import { useAppDispatch } from "../../../app/hook"
 import { useDebounce } from 'use-debounce';
-
+import { Input } from "@/components/ui/input"
 import { changeOptionalField, changeSpecifiqueLabel, deleteForm, duplicateForm, reseatSelect, selectForm } from "../../../features/formInput/formSlice"
 import { ReorderIcon } from "./ReoderIcon"
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
+import { cookies } from "next/headers"
+import ToolTipForm from "./ToolTipForm";
 export interface SingleInputStat{
    optional:boolean,id:string
 }
@@ -46,12 +52,13 @@ else if(value===true) {
     const dispatch=useAppDispatch()
     const controles=useDragControls()
     const [isShowToogle,setIsShowToogle]=useState(false)
+    const supabase = createClientComponentClient<Database>()
   return (
     <Reorder.Item  
     
     transition={{duration:0.25}}
     className={`flex flex-col  h-fit
-     gap-2 transition-all duration-0  select-none ${isSelected? "border-t-4 border-teal-500" : ""}`}
+     gap-6 transition-all duration-0  select-none ${isSelected? "border-t-4 border-teal-500" : ""}`}
     onMouseLeave={(e)=>{
         e.preventDefault()
         e.stopPropagation()
@@ -72,29 +79,19 @@ else if(value===true) {
         e.stopPropagation()
         dispatch(selectForm(id))   
     }}
-    className={`flex flex-col w-full min-h-200px] p-4  gap-2 
+    className={`flex flex-col w-full min-h-200px] p-4  gap-8
      hover:bg-[#F5F5F5] ${isSelected? "bg-[#F5F5F5]":""}`}>
-   
-     <div className={`flex justify-center w-full pt-2 ${isShowToogle&&!isSelected? "opacity-100" :"opacity-0"}`}>
+   {isSelected===false&& <div className={`flex justify-center w-full pt-2 
+     ${isShowToogle&&!isSelected? "opacity-100" :"opacity-0"}`}>
 
         
             <ReorderIcon dragControls={controles}/>
-      </div>
+      </div>}
 
 
     {isSelected&&
-    <div className="flex  p-4 justify-end gap-8">
-  
-        <button onClick={(e)=>{
-            e.stopPropagation()
-            dispatch(duplicateForm(id))
-        }}>Duplicate</button>
-        
-        <button onClick={(e)=>{
-            e.stopPropagation()
-           dispatch(deleteForm(id))
-        }}>Delete</button>
-        </div>}
+    <ToolTipForm id={id}/>
+    }
 
 <div className="flex w-full gap-2"
 onClick={(e)=>{
@@ -106,22 +103,29 @@ onClick={(e)=>{
 
    <label className="gap-2 flex items-center justify-center "><span className="text-sm">{number}.</span> 
    {isSelected? "" : `${isUsingText}`}
-    {isSelected===false&&optional? "*" : ""} </label>
-   {isSelected&&        <input  
+    {isSelected===false&&optional===false? "*" : ""} </label>
+   {isSelected&&        <Input  
    
    value={isUsingText} ref={refInput} 
     onChange={(e)=>{
         setIsUsingText(e.target.value)
       
     }}
-    className={`w-full border-b-2 pb-1 border-teal-600 outline-none `}
+    className={`outline-teal-300 w-full  pb-1  `}
     placeholder="Entrez votre reponse"/>
 }
     </div>
-    <div className={`rounded-md  ${isSelected? "border-2 " 
+
+
+    <div className={`rounded-md   ${isSelected? "border-2 " 
     : ""} ${isShowToogle&&isSelected==false? "bg-[#f5f5f5]" : "bg-[#f5f5f5]"} `}>
-    <p className="text-slate-800 pl-2 py-1">Entrez votre réponse</p>
+   
+    <Input 
+    disabled
+    className="text-slate-800 pl-2 py-1" placeholder="Entrez votre réponse"/>
     </div>
+
+
     <AnimatePresence>    {isSelected? <motion.div 
     key={"firstparent"}
     className="flex flex-col" 
@@ -154,7 +158,7 @@ onClick={(e)=>{
  {/**ça c'est le cercle pour le toggle */}
     </motion.div>
     </motion.div>
-    <p>Obligatoire</p>
+    <p>Optional</p>
 
     </motion.div>
    

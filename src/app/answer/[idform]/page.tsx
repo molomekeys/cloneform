@@ -6,6 +6,7 @@ import { InputWithLabel } from "@/components/mycomponent/components/InputWithLab
 import { RadioGroup } from "@/components/ui/radio-group"
 import RadioGroupeComponent from "@/components/mycomponent/components/RadioGroupeComponent"
 import FormComponent from "@/components/FormComponent"
+import SubmitComponent from "@/components/SubmitComponent"
 
 const page = async ({ params }: { params: { idform: string } }) => {
  
@@ -14,10 +15,11 @@ const page = async ({ params }: { params: { idform: string } }) => {
     const supabase=createServerComponentClient<Database>({cookies})
   
     const {data}=await supabase.from("questiontable")
-    .select(`id,title,type,optional,forms(
+    .select(`id,title,type,order,optional,forms(
       title
     )
     `).eq("form_id",params.idform)
+
 console.log(params.idform)
 // const inputFormComponent=data?.map((e)=>{
 // switch(e.type)
@@ -52,6 +54,7 @@ const newData = data.map(({ forms, ...rest }) => rest);
     <div className="h-full">
    <FormComponent data={newData} />
    </div>
+ 
    </div>
    </div>
    

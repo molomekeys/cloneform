@@ -1,6 +1,7 @@
 import FormMiniatureComponent from "@/components/FormMiniatureComponent"
 import NavbarPages from "@/components/mycomponent/components/NavbarPages"
 import CreateForm from "@/components/mycomponent/CreateForm"
+import NavbarDesignComponent from "@/components/navigation/NavbarDesignComponent"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 import {cookies} from "next/headers"
 import {v4} from "uuid"
@@ -23,8 +24,8 @@ async function page() {
     return <p>"error"</p>
   }
   return (
-   <main className="flex flex-col items-center h-screen bg-blue-200 justify-center p-4">
-    <NavbarPages/>
+   <main className="flex flex-col items-center h-screen bg-slate-50 justify-center p-4">
+    <NavbarDesignComponent/>
 
     <div className="w-4/5 flex items-end flex-col h-full  gap-10">
      <CreateForm/>
