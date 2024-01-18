@@ -1,8 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import { useAppDispatch } from "../../../app/hook"
-import { addNewForm } from "../../../features/formInput/formSlice"
+import { useAppDispatch } from "../../app/hook"
+import { addNewForm } from "../../features/formInput/formSlice"
 import { Button } from "@/components/ui/button"
 import {v4} from "uuid"
 const AddComponent = () => {
@@ -25,6 +25,12 @@ const AddComponent = () => {
             <p onClick={()=>{
                 dispatch(addNewForm({id:v4(),optionalquestion:{},title:"Entrez votre question",optional:false,type:"text"}))
             }}>Text</p>
+            </div>
+            <div>
+            <p onClick={()=>{
+                dispatch(addNewForm({id:v4(),optionalquestion:{},
+                title:"Entrez votre question",optional:false,type:"date"}))
+            }}>Date</p>
             </div>
     </div>:
     <Button onClick={()=>setIsSelected((e)=>!e)}>Ajouter</Button>}

@@ -1,6 +1,6 @@
 "use client"
 import { useAppDispatch } from "@/app/hook"
-import {duplicateForm,deleteForm} from "../../.././features/formInput/formSlice"
+import {duplicateForm,deleteForm} from "../../features/formInput/formSlice"
 import {IoDuplicate} from "react-icons/io5"
 import {AiOutlineDelete} from "react-icons/ai"
 import { createClientComponentClient, createServerComponentClient } from "@supabase/auth-helpers-nextjs"

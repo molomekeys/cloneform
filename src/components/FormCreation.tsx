@@ -1,15 +1,17 @@
 "use client"
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
-import InputForm from './mycomponent/components/InputForm'
+import InputForm from './forms/InputForm'
 import {useAppDispatch, useAppSelector} from "../app/hook"
 import {v4} from "uuid"
 import {useDebounce} from "use-debounce"
-import { addNewForm, formCreated, reOrderInput, reseatSelect,setInitialState } from '../features/formInput/formSlice'
+import { addNewForm, formCreated,reOrderInput, reseatSelect,setInitialState } from '../features/formInput/formSlice'
 import { Reorder,useDragControls } from 'framer-motion'
-import MultipleChoice from './mycomponent/components/MultipleChoice'
-import AddComponent from './mycomponent/components/AddComponent'
+import MultipleChoice from './forms/MultipleChoice'
+import AddComponent from './forms/AddComponent'
 import SubmitComponent from './SubmitComponent'
+import DateInput from './forms/DateInput'
+import InputDateComponent from './forms/InputDateComponent'
 interface InputDataState{
  labelInput:string ,optional:boolean,id:string
 
@@ -45,6 +47,13 @@ if(data)
       
      switch(e.type)
      {
+      case "date":
+        return <InputDateComponent index={i+1}
+        valueTest={e}
+        id={e.id} isSelected={e.id===Test} 
+        key={e.id}
+        title={e.title}/>
+        break;
       case "number":
         case"textarea":
       case"text":
@@ -94,9 +103,11 @@ if(data)
         <Reorder.Group  transition={{duration:0.25}}
         
         axis='y' values={allValue} 
-        className="gap-4 flex flex-col"
+        className="gap-8 flex flex-col"
         onClick=
-        {(e)=>e.stopPropagation()}
+        {(e)=>{e.stopPropagation()
+          dispatch(reseatSelect())
+                }        }
         onReorder={(e)=>{
           
           console.log(e)

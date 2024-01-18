@@ -18,6 +18,7 @@ export interface formCreated{
 }
 interface FormStat {
  idSelected:string,
+ 
  formCreated:formCreated[]
  
 }

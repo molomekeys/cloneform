@@ -11,9 +11,13 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
-export function SelectComponent() {
+interface SelectComponentProps{
+
+  defaultValue:string
+}
+export function SelectComponent({defaultValue}:SelectComponentProps) {
   return (
-    <Select defaultValue="text">
+    <Select defaultValue={defaultValue}>
       <SelectTrigger className="w-fit">
         <SelectValue placeholder="Restriction" />
       </SelectTrigger>

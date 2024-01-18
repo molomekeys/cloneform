@@ -12,6 +12,8 @@ import { ZodTypeAny } from "zod"
 import {useId} from "react"
 import { register } from "module"
 import { Textarea } from "./ui/textarea"
+import InputDateComponent from "./forms/InputDateComponent"
+import InputAnswerComponent from "./forms/InputAnswerComponent"
 let momo={
     name:z.string().min(1,{message:"too small"}),
     email:z.string().email(),
@@ -50,6 +52,7 @@ console.log(data)
             let safetitle=e.title.replace(".","")
             switch(e.type)
             {
+                case"textarea":
                 case "text" :
                     if(e.optional)
                     {
@@ -131,7 +134,12 @@ const momo=useForm<z.infer<typeof zodTest>>()
                         htmlFor={singleId}
                       className="font-semibold text-slate-600 text-sm">{`${+e.order+". "+e.title}${e.optional?"":"*"}` }</Label>      
                         
-                       {e.type==="textarea"?
+                       {e.type==="date"?
+                       
+                       <InputAnswerComponent/>
+                      
+                       
+                       :e.type==="textarea"?
                         <Textarea id={singleId}  {...form.register(test)}
                          
                          className="resize-none"

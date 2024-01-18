@@ -8,15 +8,15 @@ import { useEffect } from "react"
 import { useRef } from "react"
 import { useState } from "react"
 import {AnimatePresence, motion, Reorder, useDragControls} from "framer-motion"
-import { useAppDispatch } from "../../../app/hook"
+import { useAppDispatch } from "../../app/hook"
 import { useDebounce } from 'use-debounce';
 import { Input } from "@/components/ui/input"
-import { changeOptionalField, changeSpecifiqueLabel, deleteForm, duplicateForm, reseatSelect, selectForm } from "../../../features/formInput/formSlice"
-import { ReorderIcon } from "./ReoderIcon"
+import { changeOptionalField, changeSpecifiqueLabel, deleteForm, duplicateForm, reseatSelect, selectForm } from "../../features/formInput/formSlice"
+import { ReorderIcon } from "../mycomponent/components/ReoderIcon"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { cookies } from "next/headers"
 import ToolTipForm from "./ToolTipForm";
-import { SelectComponent } from "./SelectComponent";
+import { SelectComponent } from "../mycomponent/components/SelectComponent";
 import FooterInput from "./FooterInput";
 import { Textarea } from "@/components/ui/textarea";
 export interface SingleInputStat{
@@ -78,12 +78,15 @@ else if(value===true) {
     value={valueOfDar}
         >
     <div
+    onClick={e=>e.stopPropagation()}
     onDoubleClick={(e)=>{
         e.stopPropagation()
         dispatch(selectForm(id))   
     }}
     className={`flex flex-col w-full min-h-200px] p-4  gap-8
      hover:bg-[#F5F5F5] ${isSelected? "bg-[#F5F5F5]":""}`}>
+   
+   
    {isSelected===false&& <div className={`flex justify-center w-full pt-2 
      ${isShowToogle&&!isSelected? "opacity-100" :"opacity-0"}`}>
 
@@ -133,7 +136,7 @@ className="text-slate-800 pl-2 py-1 resize-none" placeholder="Entrez votre répo
 
 
     {isSelected&& <div className="w-full flex items-center justify-center">
-<FooterInput valueBol={optional} type={type}/>
+<FooterInput isText valueBol={optional} type={type}/>
 </div>}
 
     </div>

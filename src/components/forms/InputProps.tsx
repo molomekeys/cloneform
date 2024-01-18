@@ -2,8 +2,8 @@
 
 import { RefObject } from "react"
 import { useState } from "react"
-import { changeOptionChoice, deleteSpecifiqueOption } from "../../../features/formInput/formSlice"
-import { useAppDispatch } from "../../../app/hook"
+import { changeOptionChoice, deleteSpecifiqueOption } from "../../features/formInput/formSlice"
+import { useAppDispatch } from "../../app/hook"
 import {useDebounce} from "use-debounce"
 import { useEffect } from "react"
 import { AiOutlineDelete } from "react-icons/ai";

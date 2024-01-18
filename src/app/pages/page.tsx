@@ -1,5 +1,5 @@
 import FormMiniatureComponent from "@/components/FormMiniatureComponent"
-import NavbarPages from "@/components/mycomponent/components/NavbarPages"
+import NavbarPages from "@/components/navigation/NavbarPages"
 import CreateForm from "@/components/mycomponent/CreateForm"
 import NavbarDesignComponent from "@/components/navigation/NavbarDesignComponent"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
